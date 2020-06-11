@@ -90,7 +90,7 @@ def game():
         if id == '싸운다':
             return "당신은 이겼습니다 !"
         else:
-            return "당신은 패배하였습니다 !"
+            return "당신은 패배하였습니다 !ㅋㅋㅋ"
 
 @app.errorhandler(404)
 def page_not_found(error):
