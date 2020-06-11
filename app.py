@@ -17,6 +17,7 @@ def helloovar(name):
 def input_num(num):
     if num == 1:
         return "도라에몽"
+        
     elif num == 2:
         return "진구"
     elif num == 3:
@@ -78,6 +79,18 @@ def move_site(site):
     else:
         abort(404)
         # return '없는 페이지 입니다.'
+
+@app.route('/game', methods=['GET', 'POST'])
+def game():
+    if request.method == 'GET':
+        return render_template('game.html')
+    else:
+        id = request.form['id']
+        print (id,type(id))
+        if id == '싸운다':
+            return "당신은 이겼습니다 !"
+        else:
+            return "당신은 패배하였습니다 !"
 
 @app.errorhandler(404)
 def page_not_found(error):
