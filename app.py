@@ -34,9 +34,9 @@ def input_num(num):
             data = f.read()
             character = json.loads(data)
             print(character['items'])
-        return "퉁퉁이에게 졌다."
+        return ("{} 이 {}아이템을 사용 해서 이겼다.".format(character["name"], character["items"][0]))    
     elif num == 2:
-        return ("{} 이 {}아이템을 사용 해서 이겼다.".format(character["name"], character["items"][0]))   
+        return "퉁퉁이에게 패배했다."
     elif num == 3:
         return "도망갔다."
     else:
