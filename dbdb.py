@@ -11,8 +11,8 @@ def create_table():
                 "id"    varchar(50),
                 "pw"    varchar(50),
                 "name"  varchar(50),
-                PRIAMRY KEY("id")
-            );
+                PRIMARY KEY("id")
+            )
         '''
         db = dbcon()
         c = db.cursor()
@@ -22,6 +22,32 @@ def create_table():
             print('db error:', e)
     finally:
             db.close()
+
+def insert_user(id, pw, name):
+    try:
+        db = dbcon()
+        c = db.cursor()
+        setdata = (id, pw, name)
+        c.execute("INSERT INTO users VALUES (?, ?, ?)", setdata)
+        db.commit()
+    except Exception as e:
+        print('db error:', e)
+    finally:
+        db.close()
+
+def select_user(id, pw):
+    ret = ()
+    try:
+        db = dbcon()
+        c = db.cursor()
+        setdata = (id, pw)
+        c.execute('SELECT * FROM users WHERE id = ? AND pw = ?', setdata)
+        ret = c.fetchone()
+    except Exception as e:
+        print('db error:', e)
+    finally:
+        db.close()
+    return ret
 
 def insert_data(num, name):
     try:
@@ -63,7 +89,9 @@ def select_num(num):
     return ret
 
 # create_table()
+# insert_user('abc', '1234', '에비시')
 # insert_data('20201236', '디비')
 # ret = select_all()
 # ret = select_num('20201236')
+# ret = select_user('abc', '1234')
 # print(ret)
