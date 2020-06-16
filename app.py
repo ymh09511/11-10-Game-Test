@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, abort
+from flask import Flask, request, render_template, redirect, url_for, abort, session
 
 import game
 import json
@@ -6,6 +6,8 @@ import json
 import dbdb
 
 app = Flask(__name__)
+
+app.secret_key = b'aaa!111/'
 
 @app.route('/')
 def index():
@@ -59,9 +61,15 @@ def login():
         ret = dbdb.select_user(id, pw)
         print(ret[2])
         if ret !=None:
-            return "안녕하세요~ {} 님".format(ret[2])
+            session['user'] = id
+            return redirect(url_for ('index'))
         else:
-            return "아이디 또는 패스워드를 확인 하세요."
+            return redirect(url_for ('login'))
+
+@app.route('/logout')
+def logout():
+    session.pop('user', None)
+    return redirect(url_for('index'))
 
 # 회원 가입
 @app.route('/join', methods=['GET', 'POST'])
@@ -103,10 +111,13 @@ def method():
 
 @app.route('/getinfo')
 def getinfo():
-    ret = dbdb.select_all()
-    print(ret[4])
-    return render_template('getinfo.html', data=ret)
-    # return '번호 : {}, 이름 : {}'.format(ret[0], ret[1])
+    if 'user' in session:
+        ret = dbdb.select_all()
+        print(ret[4])
+        return render_template('getinfo.html', data=ret)
+        
+    return redirect(url_for('login'))
+
 
 @app.route('/naver')
 def naver():
