@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return '메인페이지'
+    return render_template('main.html')
 
 @app.route('/hello/')
 def hello():
